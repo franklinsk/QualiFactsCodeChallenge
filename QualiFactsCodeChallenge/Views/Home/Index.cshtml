@@ -21,12 +21,33 @@
 <button type="button" class="btn btn-primary" id="calculateApiBtn">Calculate from API</button>
 
 <div id="resultTable"></div>
-<div id="resultTableApi"></div>
 
+      <table class="table-striped border-success">
+        <thead>
+          <tr>
+            <th data-field="number">
+              <span class="text-success">
+                Number from API
+              </span>
+            </th>
+            <th data-field="result">
+              <span class="text-success">
+                Result
+              </span>
+            </th>
+          </tr>
+        </thead>
+      </table>
 
 <script>
     $(document).ready(function () {
-        
+
+    
+
+
+
+
+
 
         $("#calculateBtn").click(function () {
 
@@ -63,13 +84,11 @@
                 type: "POST",
                 data: { input1: input1, input2: input2, size: size },
                 success: function (data) {
-                    var tableHtml = "<table class='table table-bordered'><thead><tr><th>Numbers from API</th><th>Results</th></tr></thead><tbody>";
-                    $.each(data, function (index, result) {
-                        tableHtml += "<tr><td>" + result.number + "</td><td>" + result.result + "</td></tr>";
+                    
+                    $('table').bootstrapTable({
+                        data: data
                     });
-                    tableHtml += "</tbody></table>";
 
-                    $("#resultTableApi").html(tableHtml);
                 }
             });
         });
