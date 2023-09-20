@@ -18,8 +18,10 @@
 </div>
 
 <button type="button" class="btn btn-primary" id="calculateBtn">Calculate</button>
+<button type="button" class="btn btn-primary" id="calculateApiBtn">Calculate from API</button>
 
 <div id="resultTable"></div>
+<div id="resultTableApi"></div>
 
 
 <script>
@@ -48,6 +50,30 @@
                 }
             });
         });
+
+        $("#calculateApiBtn").click(function () {
+
+
+            var input1 = $("#input1").val();
+            var input2 = $("#input2").val();
+            var size = $("#size").val();
+
+            $.ajax({
+                url: "/Home/CalculateApi",
+                type: "POST",
+                data: { input1: input1, input2: input2, size: size },
+                success: function (data) {
+                    var tableHtml = "<table class='table table-bordered'><thead><tr><th>Numbers from API</th><th>Results</th></tr></thead><tbody>";
+                    $.each(data, function (index, result) {
+                        tableHtml += "<tr><td>" + result.number + "</td><td>" + result.result + "</td></tr>";
+                    });
+                    tableHtml += "</tbody></table>";
+
+                    $("#resultTableApi").html(tableHtml);
+                }
+            });
+        });
+
     });
 </script>
 
