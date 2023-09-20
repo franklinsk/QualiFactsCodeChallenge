@@ -1,4 +1,5 @@
 ﻿using CalculatorApi.Models;
+using CalculatorApi.MyUtils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
@@ -32,36 +33,10 @@ namespace CalculatorApi.Controllers
                 return BadRequest("Size should be positive.");
             }
 
+
             List<CalculationResult> results = new List<CalculationResult>();
 
-
-            for (int number = 1; number <= size; number++)
-            {
-                string result = "N/A";
-
-                if (number % input1 == 0)
-                {
-                    result = "yes";
-                }
-
-                if (number % input2 == 0)
-                {
-                    if (result == "yes")
-                    {
-                        result = "I dont know";
-                    }
-                    else
-                    {
-                        result = "no";
-                    }
-                }
-
-                results.Add(new CalculationResult
-                {
-                    Number = number,
-                    Result = result
-                });
-            }
+            results = CalculatorUtils.calculateResult(input1, input2, size);
 
             return   Ok(results);
         }
