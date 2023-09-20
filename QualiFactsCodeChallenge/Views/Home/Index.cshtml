@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Calculator";
+}
+
+<h2>Calculator</h2>
+
+<div class="form-group">
+    @Html.Label("Input 1:")
+    @Html.TextBox("input1", null, new { @class = "form-control", id = "input1" })
+</div>
+<div class="form-group">
+    @Html.Label("Input 2:")
+    @Html.TextBox("input2", null, new { @class = "form-control", id = "input2" })
+</div>
+<div class="form-group">
+    @Html.Label("Size:")
+    @Html.TextBox("size", null, new { @class = "form-control", id = "size" })
+</div>
+
+<button type="button" class="btn btn-primary" id="calculateBtn">Calculate</button>
+
+<div id="resultTable"></div>
+
+
+<script>
+    $(document).ready(function () {
+        
+
+        $("#calculateBtn").click(function () {
+
+
+            var input1 = $("#input1").val();
+            var input2 = $("#input2").val();
+            var size = $("#size").val();
+
+            $.ajax({
+                url: "/Home/Calculate",
+                type: "POST",
+                data: { input1: input1, input2: input2, size: size },
+                success: function (data) {
+                    var tableHtml = "<table class='table table-bordered'><thead><tr><th>Numbers</th><th>Results</th></tr></thead><tbody>";
+                    $.each(data, function (index, result) {
+                        tableHtml += "<tr><td>" + result.number + "</td><td>" + result.result + "</td></tr>";
+                    });
+                    tableHtml += "</tbody></table>";
+
+                    $("#resultTable").html(tableHtml);
+                }
+            });
+        });
+    });
+</script>
+
